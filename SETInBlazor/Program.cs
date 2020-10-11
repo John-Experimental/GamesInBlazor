@@ -1,16 +1,13 @@
-using System;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using SETInBlazor.Services;
+using SETInBlazor.Services.Interfaces;
 using SETLogicLibrary.Interfaces;
 using SETLogicLibrary.Services;
-using SETInBlazor.Services.Interfaces;
-using SETInBlazor.Services;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SETInBlazor
 {
@@ -24,6 +21,12 @@ namespace SETInBlazor
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<ICardHelperService, CardHelperService>();
             builder.Services.AddScoped<IUiHelperService, UiHelperService>();
+
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperConfig>();
+            });
+            builder.Services.AddSingleton(configuration.CreateMapper());
 
             await builder.Build().RunAsync();
         }

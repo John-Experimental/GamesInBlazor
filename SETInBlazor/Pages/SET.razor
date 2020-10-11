@@ -3,13 +3,16 @@
 @using SETLogicLibrary.Models
 @using SETLogicLibrary.Interfaces
 @using SETInBlazor.Services.Interfaces
+@using SETInBlazor.Models
+@using AutoMapper
 
 @inject ICardHelperService _cardHelperService
 @inject IUiHelperService _uiHelperService
+@inject IMapper _mapper
 
 @if (uniqueCardCombinations == null)
 {
-    <div>Loading...</div>
+    <div>Loading....</div>
 }
 else
 {
@@ -28,17 +31,18 @@ else
 
 @code {
     private int numberOfCardsVisible = 12;
-    private List<SetCard> uniqueCardCombinations;
+    private List<SetCardUiModel> uniqueCardCombinations;
     private string lineClass;
+    private int numberOfSelected = 0;
 
     protected override void OnInitialized()
     {
-        uniqueCardCombinations = _cardHelperService.CreateAllUniqueCombinations();
+        uniqueCardCombinations = _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations());
         lineClass = _uiHelperService.GetLineClass(numberOfCardsVisible);
 
     }
 
-    private void ChangeBackGroundColor(SetCard setCard)
+    private void ChangeBackGroundColor(SetCardUiModel setCard)
     {
         
     }
