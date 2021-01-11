@@ -1,4 +1,5 @@
-﻿using SETInBlazor.Services.Interfaces;
+﻿using SETInBlazor.Models;
+using SETInBlazor.Services.Interfaces;
 
 namespace SETInBlazor.Services
 {
@@ -12,6 +13,11 @@ namespace SETInBlazor.Services
                 12 => "four-line",
                 _ => "three-line",
             };
+        }
+
+        public void HighlightCard(SetCardUiModel setCard, bool toBeSelected)
+        {
+            setCard.BackGroundColor = toBeSelected ? "green" : "white";
         }
     }
 }

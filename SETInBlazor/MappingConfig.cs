@@ -9,6 +9,8 @@ namespace SETInBlazor
         public AutoMapperConfig()
         {
             CreateMap<SetCard, SetCardUiModel>();
+            CreateMap<SetCardUiModel, SetCard>()
+                .ForSourceMember(source => source.BackGroundColor, act => act.DoNotValidate());
         }
     }
 }

@@ -1,14 +1,5 @@
-﻿@page "/set"
-
-@using SETLogicLibrary.Models
-@using SETLogicLibrary.Interfaces
-@using SETInBlazor.Services.Interfaces
-@using SETInBlazor.Models
-@using AutoMapper
-
-@inject ICardHelperService _cardHelperService
-@inject IUiHelperService _uiHelperService
-@inject IMapper _mapper
+﻿@page "/"
+@page "/set"
 
 @if (uniqueCardCombinations == null)
 {
@@ -19,7 +10,8 @@ else
     <div class="cardsContainer">
         @for (int i = 0; i < numberOfCardsVisible; i++)
         {
-            <div class="card @lineClass" @onclick="() => ChangeBackGroundColor(uniqueCardCombinations[i])">
+            var index = i;
+            <div class="card @lineClass" style="background-color:@uniqueCardCombinations[index].BackGroundColor;" @onclick="() => ProcessSelection(uniqueCardCombinations[index])">
                 @for (int j = 0; j < uniqueCardCombinations[i].Count; j++)
                 {
                     <div class="@uniqueCardCombinations[i].Shape @uniqueCardCombinations[i].Color @uniqueCardCombinations[i].Border"></div>
@@ -27,24 +19,4 @@ else
             </div>
         }
     </div>
-}
-
-@code {
-    private int numberOfCardsVisible = 12;
-    private List<SetCardUiModel> uniqueCardCombinations;
-    private string lineClass;
-    private int numberOfSelected = 0;
-
-    protected override void OnInitialized()
-    {
-        uniqueCardCombinations = _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations());
-        lineClass = _uiHelperService.GetLineClass(numberOfCardsVisible);
-
-    }
-
-    private void ChangeBackGroundColor(SetCardUiModel setCard)
-    {
-        
-    }
-
 }
