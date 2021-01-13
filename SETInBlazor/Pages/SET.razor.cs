@@ -29,7 +29,6 @@ namespace SETInBlazor.Pages
         {
             uniqueCardCombinations = _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations());
             lineClass = _uiHelperService.GetLineClass(numberOfCardsVisible);
-
         }
 
         private void ProcessSelection(SetCardUiModel setCard)
