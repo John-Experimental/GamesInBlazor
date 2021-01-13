@@ -19,12 +19,13 @@ namespace SETInBlazor.Pages
         public IUiHelperService _uiHelperService { get; set; }
         [Inject]
         public IMapper _mapper { get; set; }
+        [Parameter]
+        public int numberOfCardsVisible { get; set; }
 
-        private int numberOfCardsVisible = 12;
         private List<SetCardUiModel> uniqueCardCombinations;
         private string lineClass;
         private int numberOfSelected = 0;
-        
+
         protected override void OnInitialized()
         {
             uniqueCardCombinations = _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations());
