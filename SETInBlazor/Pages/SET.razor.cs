@@ -20,24 +20,30 @@ namespace SETInBlazor.Pages
         [Inject]
         public IMapper _mapper { get; set; }
         [Parameter]
-        public int numberOfCardsVisible { get; set; }
+        public string difficultyVariation { get; set; }
 
         private List<SetCardUiModel> uniqueCardCombinations;
         private string lineClass;
         private int numberOfSelected = 0;
+        private int numberOfCardsVisible;
 
         protected override void OnInitialized()
         {
-            uniqueCardCombinations = _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations());
+            difficultyVariation = difficultyVariation ?? "NORMAL";
+            var settings = new GameSettings(difficultyVariation);
+            numberOfCardsVisible = settings.numberOfCardsVisible;
+
+            uniqueCardCombinations = _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations(settings));
+
             lineClass = _uiHelperService.GetLineClass(numberOfCardsVisible);
         }
 
         private void ProcessSelection(SetCardUiModel setCard)
         {
             var toBeSelected = setCard.BackGroundColor == "white" ? true : false;
+            numberOfSelected += toBeSelected ? 1 : -1;
 
             setCard.BackGroundColor = toBeSelected ? "yellow" : "white";
-            numberOfSelected += toBeSelected ? 1 : -1;
 
             if (numberOfSelected == 3)
             {
