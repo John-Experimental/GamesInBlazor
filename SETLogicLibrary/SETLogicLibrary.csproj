@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>JP. Reumerman</Authors>
+    <Company>Private</Company>
+    <Product />
+    <Description>Backend logic which can be used to create an implementation of the game SET</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="css\all.css" />
+    <None Remove="css\SetCards.css" />
+    <None Remove="css\site.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="css\all.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="css\SetCards.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="css\site.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
