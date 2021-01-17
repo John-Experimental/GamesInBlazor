@@ -1,5 +1,4 @@
 ﻿using SETLogicLibrary.Models;
-using System;
 using System.Collections.Generic;
 
 namespace SETLogicLibrary.Interfaces
@@ -8,5 +7,6 @@ namespace SETLogicLibrary.Interfaces
     {
         List<SetCard> CreateAllUniqueCombinations(GameSettings settings);
         bool VerifySet(List<SetCard> possibleSet);
+        bool DoesFieldContainASet(List<SetCard> cards);
     }
 }

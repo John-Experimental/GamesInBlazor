@@ -81,5 +81,10 @@ namespace SETLogicLibrary.Services
 
             return isColorCorrect && isShapeCorect && isBorderCorrect && isCountCorrect;
         }
+
+        public bool DoesFieldContainASet(List<SetCard> cards)
+        {
+            return true;
+        }
     }
 }

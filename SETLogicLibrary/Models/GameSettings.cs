@@ -20,7 +20,7 @@
             {
                 case "EASY":
                     differentBorders = false;
-                    numberOfCardsVisible = 9;
+                    numberOfCardsVisible = 12;
                     break;
             }
         }
