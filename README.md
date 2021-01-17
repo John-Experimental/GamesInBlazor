@@ -1,5 +1,7 @@
 # SET game
 
+Game is available [online](https://delightful-sand-00b5a3903.azurestaticapps.net/).
+
 *"The goal of the game is to find sets (hence the game's name) of three cards, such that for each of the attributes (3 for the easy variation, 4 for the hard variation), either all three cards have different values or all three cards have the same value"*
 (taken from [here](https://brilliant.org/wiki/set-game/)).
 
