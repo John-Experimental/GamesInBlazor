@@ -15,9 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="SETLogicLibrary">
-      <HintPath>..\SETLogicLibrary\bin\Debug\netstandard2.0\SETLogicLibrary.dll</HintPath>
-    </Reference>
+    <Reference Include="..\SETLogicLibrary\SETLogicLibrary.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
