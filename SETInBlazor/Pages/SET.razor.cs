@@ -26,16 +26,19 @@ namespace SETInBlazor.Pages
         private string lineClass;
         private int numberOfSelected = 0;
         private int numberOfCardsVisible;
+        private GameSettings settings;
 
         protected override void OnInitialized()
         {
             difficultyVariation = difficultyVariation ?? "NORMAL";
-            var settings = new GameSettings(difficultyVariation);
+            settings = new GameSettings(difficultyVariation);
             numberOfCardsVisible = settings.numberOfCardsVisible;
 
-            uniqueCardCombinations = _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations(settings));
+            uniqueCardCombinations = GetCardsForNewGame(settings);
+            EnsureSetExistsOnField();
 
             lineClass = _uiHelperService.GetLineClass(numberOfCardsVisible);
+
         }
 
         private void ProcessSelection(SetCardUiModel setCard)
@@ -52,11 +55,47 @@ namespace SETInBlazor.Pages
 
                 if (isSet)
                 {
-                    uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == "yellow");
-                    numberOfSelected = 0;
+                    ProcessSetReplacement();
+
+                    EnsureSetExistsOnField();
                 }
             };
+        }
 
+        private List<SetCardUiModel> GetCardsForNewGame(GameSettings settings)
+        {
+            return _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations(settings));
+        }
+
+        private void ProcessSetReplacement()
+        {
+            uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == "yellow");
+            numberOfSelected = 0;
+
+            // Check if the field currently shows more cards than normal (can happen if there was no set)
+            // If there are more cards, then remove 3 cards again to bring it back down to 'normal'
+            numberOfCardsVisible -= numberOfCardsVisible > settings.numberOfCardsVisible ? 3 : 0;
+        }
+
+        private void EnsureSetExistsOnField()
+        {
+            // Get the total number of cards which will be shown and check if they contain a set
+            // If not, then add 3 more cards to be visible to ensure there is a set
+            var visibleCards = _mapper.Map<List<SetCardUiModel>, List<SetCard>>(uniqueCardCombinations.Take(numberOfCardsVisible).ToList());
+
+            if (!_cardHelperService.DoesFieldContainASet(visibleCards))
+            {
+                // Once there are no more cards left and there's no set, start a new game for now
+                if (uniqueCardCombinations.Count <= numberOfCardsVisible)
+                {
+                    uniqueCardCombinations = GetCardsForNewGame(settings);
+                }
+                else
+                {
+                    // Otherwise add 3 more cards to be made visible on the field
+                    numberOfCardsVisible += 3;
+                }
+            }
         }
     }
 }
