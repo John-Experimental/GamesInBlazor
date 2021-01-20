@@ -84,7 +84,25 @@ namespace Set.Backend.Services
 
         public bool DoesFieldContainASet(List<SetCard> cards)
         {
-            return true;
+            // Tripple loop to go through each unique possible combination of cards to check for a set
+            // The order of the cards doesn't matter, so always starting j on the right of i and k on the right of j
+            // as all earlier possible combinations have already been tried
+            for (int i = 0; i < cards.Count - 2; i++)
+            {
+                for (int j = i + 1; j < cards.Count - 1; j++)
+                {
+                    for (int k = j + 1; k < cards.Count; k++)
+                    {
+                        if (VerifySet(new List<SetCard> { cards[i], cards[j], cards[k] }))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            // If no set has been found in all the possibilities, then return false
+            return false;
         }
     }
 }
