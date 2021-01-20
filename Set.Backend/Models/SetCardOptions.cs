@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SETLogicLibrary.Models
+﻿namespace Set.Backend.Models
 {
     public class SetCardOptions
     {

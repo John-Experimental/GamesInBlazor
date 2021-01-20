@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SETInBlazor.Models;
-using SETLogicLibrary.Models;
+using Set.Backend.Models;
 
 namespace SETInBlazor
 {

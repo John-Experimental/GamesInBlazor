@@ -1,9 +1,9 @@
-﻿using SETLogicLibrary.Interfaces;
-using SETLogicLibrary.Models;
+﻿using Set.Backend.Interfaces;
+using Set.Backend.Models;
 using System;
 using System.Collections.Generic;
 
-namespace SETLogicLibrary.Services
+namespace Set.Backend.Services
 {
     public class CardHelperService : ICardHelperService
     {

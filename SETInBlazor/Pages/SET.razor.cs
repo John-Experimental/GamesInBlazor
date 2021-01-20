@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Components;
 using SETInBlazor.Models;
 using SETInBlazor.Services.Interfaces;
-using SETLogicLibrary.Interfaces;
-using SETLogicLibrary.Models;
+using Set.Backend.Interfaces;
+using Set.Backend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
