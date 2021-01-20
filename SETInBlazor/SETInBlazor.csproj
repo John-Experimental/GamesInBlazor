@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="..\SETLogicLibrary\SETLogicLibrary.csproj"/>
+    <ProjectReference Include="..\Set.Backend\Set.Backend.csproj" />
   </ItemGroup>
 
   <ItemGroup>

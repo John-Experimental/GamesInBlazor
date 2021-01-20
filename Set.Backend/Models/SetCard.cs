@@ -1,4 +1,4 @@
-﻿namespace SETLogicLibrary.Models
+﻿namespace Set.Backend.Models
 {
     public class SetCard
     {

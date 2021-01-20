@@ -1,12 +1,12 @@
-﻿using SETLogicLibrary.Models;
+﻿using Set.Backend.Models;
 using System.Collections.Generic;
 
-namespace SETLogicLibrary.Interfaces
+namespace Set.Backend.Interfaces
 {
     public interface ICardHelperService
     {
         List<SetCard> CreateAllUniqueCombinations(GameSettings settings);
-        bool VerifySet(List<SetCard> possibleSet);
         bool DoesFieldContainASet(List<SetCard> cards);
+        bool VerifySet(List<SetCard> possibleSet);
     }
 }
