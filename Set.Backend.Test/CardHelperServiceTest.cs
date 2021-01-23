@@ -40,7 +40,7 @@ namespace Set.Backend.Test
 
             var result = _cardHelperService.CreateAllUniqueCombinations(settings);
 
-            // If only 3 options are used, there should be 27 unique combinations, regardless of which parameter is set to false
+            // If only 3 options are used, there should be 27 unique combinations, regardless of which parameter is set to false (hence InLineData variants
             result.Count.Should().Be(27);
             result.Distinct().Count().Should().Be(27);
         }
