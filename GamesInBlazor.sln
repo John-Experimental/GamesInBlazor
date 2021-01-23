@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SETInBlazor", "SETInBlazor\SETInBlazor.csproj", "{E7BA02B1-65A4-443E-BE6A-202D86EA6F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Set.Frontend", "SETInBlazor\Set.Frontend.csproj", "{E7BA02B1-65A4-443E-BE6A-202D86EA6F86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Set.Backend", "Set.Backend\Set.Backend.csproj", "{CC6B9DC1-9D84-4A0B-BA65-342C9DBDB486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Set.Backend", "Set.Backend\Set.Backend.csproj", "{CC6B9DC1-9D84-4A0B-BA65-342C9DBDB486}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

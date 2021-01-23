@@ -1,7 +1,7 @@
-﻿using SETInBlazor.Models;
-using SETInBlazor.Services.Interfaces;
+﻿using Set.Frontend.Models;
+using Set.Frontend.Services.Interfaces;
 
-namespace SETInBlazor.Services
+namespace Set.Frontend.Services
 {
     public class UiHelperService : IUiHelperService
     {

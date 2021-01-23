@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using SETInBlazor.Models;
-using SETInBlazor.Services.Interfaces;
+using Set.Frontend.Models;
+using Set.Frontend.Services.Interfaces;
 using Set.Backend.Interfaces;
 using Set.Backend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SETInBlazor.Pages
+namespace Set.Frontend.Pages
 {
     public partial class SET
     {

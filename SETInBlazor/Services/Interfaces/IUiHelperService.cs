@@ -1,4 +1,4 @@
-﻿namespace SETInBlazor.Services.Interfaces
+﻿namespace Set.Frontend.Services.Interfaces
 {
     public interface IUiHelperService
     {
