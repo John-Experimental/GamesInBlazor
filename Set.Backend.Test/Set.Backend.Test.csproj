@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Set.Backend\Set.Backend.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>
