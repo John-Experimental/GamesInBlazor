@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Set.Frontend", "SETInBlazor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Set.Backend", "Set.Backend\Set.Backend.csproj", "{CC6B9DC1-9D84-4A0B-BA65-342C9DBDB486}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Set.Backend.Test", "Set.Backend.Test\Set.Backend.Test.csproj", "{2FF2A9D9-7419-4865-8E6B-B9EE84F20D60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Set.Backend.Test", "Set.Backend.Test\Set.Backend.Test.csproj", "{2FF2A9D9-7419-4865-8E6B-B9EE84F20D60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{37D2AEE1-4576-4435-9AFC-BF78AE6803AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{37D2AEE1-4576-4435-9AFC-BF78AE6803AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Set.Frontend.Test", "Set.Frontend.Test\Set.Frontend.Test.csproj", "{2D190560-16CF-46E1-8873-2ED93C47CB5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{37D2AEE1-4576-4435-9AFC-BF78AE6803AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37D2AEE1-4576-4435-9AFC-BF78AE6803AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37D2AEE1-4576-4435-9AFC-BF78AE6803AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D190560-16CF-46E1-8873-2ED93C47CB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D190560-16CF-46E1-8873-2ED93C47CB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D190560-16CF-46E1-8873-2ED93C47CB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D190560-16CF-46E1-8873-2ED93C47CB5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

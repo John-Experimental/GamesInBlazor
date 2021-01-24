@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Set.Frontend.Pages
 {
-    public partial class SET
+    public partial class SetPage
     {
         // Using the inject attributes here, rather than in the SET.razor page itself
         // Prefer to keep all the logic away from the page, including the DI
