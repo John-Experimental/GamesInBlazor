@@ -1,4 +1,4 @@
-﻿namespace Set.Frontend.Services.Interfaces
+﻿namespace Set.Frontend.Interfaces
 {
     public interface IUiHelperService
     {

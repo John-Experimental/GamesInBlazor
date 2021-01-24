@@ -1,5 +1,5 @@
 ﻿using Set.Frontend.Models;
-using Set.Frontend.Services.Interfaces;
+using Set.Frontend.Interfaces;
 
 namespace Set.Frontend.Services
 {

@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Set.Frontend.Services;
-using Set.Frontend.Services.Interfaces;
+using Set.Frontend.Interfaces;
 using Set.Backend.Interfaces;
 using Set.Backend.Services;
 using System;
