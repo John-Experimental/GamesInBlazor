@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using Set.Frontend.Models;
-using Set.Frontend.Services.Interfaces;
+using Set.Frontend.Interfaces;
 using Set.Backend.Interfaces;
 using Set.Backend.Models;
 using System.Collections.Generic;
