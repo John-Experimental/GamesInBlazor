@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using SETInBlazor.Models;
+using Set.Frontend.Models;
 using Set.Backend.Models;
 
-namespace SETInBlazor
+namespace Set.Frontend
 {
     public class AutoMapperConfig : Profile
     {

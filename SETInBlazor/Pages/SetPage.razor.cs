@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using SETInBlazor.Models;
-using SETInBlazor.Services.Interfaces;
+using Set.Frontend.Models;
+using Set.Frontend.Interfaces;
 using Set.Backend.Interfaces;
 using Set.Backend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SETInBlazor.Pages
+namespace Set.Frontend.Pages
 {
-    public partial class SET
+    public partial class SetPage
     {
         // Using the inject attributes here, rather than in the SET.razor page itself
         // Prefer to keep all the logic away from the page, including the DI

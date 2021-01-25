@@ -1,15 +1,15 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using SETInBlazor.Services;
-using SETInBlazor.Services.Interfaces;
+using Set.Frontend.Services;
+using Set.Frontend.Interfaces;
 using Set.Backend.Interfaces;
 using Set.Backend.Services;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SETInBlazor
+namespace Set.Frontend
 {
     public class Program
     {

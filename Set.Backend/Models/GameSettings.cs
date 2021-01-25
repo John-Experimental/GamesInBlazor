@@ -2,10 +2,10 @@
 {
     public class GameSettings
     {
-        public bool differentShapes = true;
-        public bool differentBorders = true;
-        public bool differentColors = true;
-        public bool differentCounts = true;
+        public bool differentShapes { get; set; } = true;
+        public bool differentBorders { get; set; } = true;
+        public bool differentColors { get; set; } = true;
+        public bool differentCounts { get; set; } = true;
         public int numberOfCardsVisible = 12;
 
         /// <summary>
@@ -20,7 +20,9 @@
             {
                 case "EASY":
                     differentBorders = false;
-                    numberOfCardsVisible = 12;
+                    numberOfCardsVisible = 9;
+                    break;
+                default:                    
                     break;
             }
         }

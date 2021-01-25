@@ -1,4 +1,4 @@
-﻿namespace SETInBlazor.Models
+﻿namespace Set.Frontend.Models
 {
     public class SetCardUiModel
     {
