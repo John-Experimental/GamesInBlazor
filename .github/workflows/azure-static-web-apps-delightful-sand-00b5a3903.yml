@@ -1,7 +1,11 @@
 name: Build and Deploy master
 
 on:
+  workflow_dispatch:
   push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
