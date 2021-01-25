@@ -26,7 +26,7 @@ jobs:
         run: dotnet test --no-build --verbosity normal
 
     build_and_deploy_job:
-      if: github.event_name == 'push'
+      # if: github.event_name == 'push'
       needs: build
       runs-on: ubuntu-latest
       name: Build and Deploy Job
