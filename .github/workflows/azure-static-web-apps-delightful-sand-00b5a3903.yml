@@ -17,7 +17,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.x
+          dotnet-version: 5.0.x
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
@@ -27,6 +27,7 @@ jobs:
 
     build_and_deploy_job:
       if: github.event_name == 'push'
+      needs: build
       runs-on: ubuntu-latest
       name: Build and Deploy Job
       steps:
