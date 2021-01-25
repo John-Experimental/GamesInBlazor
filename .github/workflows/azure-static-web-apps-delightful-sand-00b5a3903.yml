@@ -39,7 +39,7 @@ jobs:
         with:
           dotnet-version: 5.0.x
       - name: Publish with dotnet
-        run: dotnet publish /SETInBlazor/Set.Frontend.csproj --configuration Release --output build
+        run: dotnet publish SETInBlazor/Set.Frontend.csproj --configuration Release --output build
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v0.0.1-preview
