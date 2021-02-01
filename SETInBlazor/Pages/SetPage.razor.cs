@@ -43,18 +43,18 @@ namespace Set.Frontend.Pages
 
         private void ProcessSelection(SetCardUiModel setCard)
         {
-            var toBeSelected = setCard.BackGroundColor == "white" ? true : false;
-            numberOfSelected += toBeSelected ? 1 : -1;
-
-            setCard.BackGroundColor = toBeSelected ? "yellow" : "white";
+            numberOfSelected += _uiHelperService.ProcessCardSelection(setCard);
 
             if (numberOfSelected == 3)
             {
-                var potentialSet = _mapper.Map<List<SetCardUiModel>, List<SetCard>>(uniqueCardCombinations.Where(card => card.BackGroundColor == "yellow").ToList());
+                var setSubmission = uniqueCardCombinations.Where(card => card.BackGroundColor == "yellow").ToList();
+                var potentialSet = _mapper.Map<List<SetCardUiModel>, List<SetCard>>(setSubmission);
                 var isSet = _cardHelperService.VerifySet(potentialSet);
 
                 if (isSet)
                 {
+                    _uiHelperService.SignalSetSubmissionOutcome(setSubmission, true);
+
                     ProcessSetReplacement();
 
                     EnsureSetExistsOnField();
