@@ -6,6 +6,7 @@ using Set.Backend.Interfaces;
 using Set.Backend.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Set.Frontend.Pages
 {
@@ -51,16 +52,10 @@ namespace Set.Frontend.Pages
                 var potentialSet = _mapper.Map<List<SetCardUiModel>, List<SetCard>>(setSubmission);
                 var isSet = _cardHelperService.VerifySet(potentialSet);
 
-                if (isSet)
-                {
-                    _uiHelperService.SignalSetSubmissionOutcome(setSubmission, true);
-
-                    ProcessSetReplacement();
-
-                    EnsureSetExistsOnField();
-                }
+                _uiHelperService.SignalSetSubmissionOutcome(setSubmission, isSet);
             };
         }
+
 
         private List<SetCardUiModel> GetCardsForNewGame(GameSettings settings)
         {
@@ -69,12 +64,44 @@ namespace Set.Frontend.Pages
 
         private void ProcessSetReplacement()
         {
-            uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == "yellow");
-            numberOfSelected = 0;
+            // If it wasn't a set submission, you do nothing
+            if (numberOfSelected == 3)
+            {
+                var redBorderedCards = uniqueCardCombinations.Where(card => card.BorderColor == "red").ToList();
+                var countGreenBorders = uniqueCardCombinations.Count(card => card.BorderColor == "green");
 
-            // Check if the field currently shows more cards than normal (can happen if there was no set)
-            // If there are more cards, then remove 3 cards again to bring it back down to 'normal'
-            numberOfCardsVisible -= numberOfCardsVisible > settings.numberOfCardsVisible ? 3 : 0;
+                // The while ensures that the 'ProcessSelection' function, which is also called, has run first
+                while (redBorderedCards.Count == 0 && countGreenBorders == 0)
+                {
+                    Thread.Sleep(125);
+                    redBorderedCards = uniqueCardCombinations.Where(card => card.BorderColor == "red").ToList();
+                    countGreenBorders = uniqueCardCombinations.Count(card => card.BorderColor == "green");
+                }
+
+                // Wait 1.5 seconds so that the user can see the set outcome from 'ProcessSelection' before removing it
+                Thread.Sleep(1500);
+
+                if (countGreenBorders == 3)
+                {
+                    // Replace the set by removing the set submission entirely from the list
+                    uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == "yellow");
+                    numberOfSelected = 0;
+
+                    // Check if the field currently shows more cards than normal (can happen if there was no set previously)
+                    // If there are more cards, then remove 3 cards again to bring it back down to 'normal'
+                    numberOfCardsVisible -= numberOfCardsVisible > settings.numberOfCardsVisible ? 3 : 0;
+
+                    EnsureSetExistsOnField();
+                }
+                else
+                {
+                    foreach (var card in redBorderedCards)
+                    {
+                        card.BackGroundColor = "white";
+                        card.BorderColor = "black";
+                    }
+                }
+            };
         }
 
         private void EnsureSetExistsOnField()

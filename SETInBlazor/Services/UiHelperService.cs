@@ -33,21 +33,16 @@ namespace Set.Frontend.Services
         /// </summary>
         /// <param name="cards">SetCardUiModel cards to flash</param>
         /// /// <param name="isSet">bool to determine if the set was correct or false</param>
-        public void SignalSetSubmissionOutcome(IEnumerable<SetCardUiModel> cards, bool isSet)
+        public IEnumerable<SetCardUiModel> ChangeSetBackgroundColorOnSubmissionOutcome(IEnumerable<SetCardUiModel> cards, bool isSet)
         {
-            
             var signalColor = isSet ? "green" : "red";
 
-            for (int i = 0; i < 10; i++)
+            foreach (var card in cards)
             {
-                foreach (var card in cards)
-                {
-                    card.BackGroundColor = signalColor;
-                    card.BackGroundColor = "white";
-                }
-
-                System.Threading.Thread.Sleep(100);
+                card.BorderColor = signalColor;
             }
+
+            return cards;
         }
     }
 }
