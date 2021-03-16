@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Set.Frontend.Models;
-using Set.Frontend.Interfaces;
 using Set.Backend.Interfaces;
 using Set.Backend.Models;
+using Set.Frontend.Interfaces;
+using Set.Frontend.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Set.Frontend.Pages
 {
@@ -42,17 +42,21 @@ namespace Set.Frontend.Pages
 
         }
 
-        private void ProcessSelection(SetCardUiModel setCard)
+        private async Task ProcessSelection(SetCardUiModel setCard)
         {
             numberOfSelected += _uiHelperService.ProcessCardSelection(setCard);
 
             if (numberOfSelected == 3)
             {
                 var setSubmission = uniqueCardCombinations.Where(card => card.BackGroundColor == "yellow").ToList();
+
                 var potentialSet = _mapper.Map<List<SetCardUiModel>, List<SetCard>>(setSubmission);
                 var isSet = _cardHelperService.VerifySet(potentialSet);
 
-                _uiHelperService.SignalSetSubmissionOutcome(setSubmission, isSet);
+                _uiHelperService.ChangeSetBackgroundColorOnSubmissionOutcome(setSubmission, isSet);
+
+                await Task.Delay(1000);
+                ProcessSetReplacement();
             };
         }
 
@@ -69,17 +73,6 @@ namespace Set.Frontend.Pages
             {
                 var redBorderedCards = uniqueCardCombinations.Where(card => card.BorderColor == "red").ToList();
                 var countGreenBorders = uniqueCardCombinations.Count(card => card.BorderColor == "green");
-
-                // The while ensures that the 'ProcessSelection' function, which is also called, has run first
-                while (redBorderedCards.Count == 0 && countGreenBorders == 0)
-                {
-                    Thread.Sleep(125);
-                    redBorderedCards = uniqueCardCombinations.Where(card => card.BorderColor == "red").ToList();
-                    countGreenBorders = uniqueCardCombinations.Count(card => card.BorderColor == "green");
-                }
-
-                // Wait 1.5 seconds so that the user can see the set outcome from 'ProcessSelection' before removing it
-                Thread.Sleep(1500);
 
                 if (countGreenBorders == 3)
                 {
@@ -100,6 +93,8 @@ namespace Set.Frontend.Pages
                         card.BackGroundColor = "white";
                         card.BorderColor = "black";
                     }
+
+                    numberOfSelected = 0;
                 }
             };
         }

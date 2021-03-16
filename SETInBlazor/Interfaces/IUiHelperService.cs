@@ -7,6 +7,6 @@ namespace Set.Frontend.Interfaces
     {
         string GetLineClass(int numberOfCardsVisible);
         int ProcessCardSelection(SetCardUiModel setCard);
-        IEnumerable<SetCardUiModel> SignalSetSubmissionOutcome(IEnumerable<SetCardUiModel> cards, bool isSet);
+        IEnumerable<SetCardUiModel> ChangeSetBackgroundColorOnSubmissionOutcome(IEnumerable<SetCardUiModel> cards, bool isSet);
     }
 }
