@@ -1,6 +1,7 @@
 ﻿using Set.Frontend.Models;
 using Set.Frontend.Interfaces;
 using System.Collections.Generic;
+using Set.Frontend.Constants;
 
 namespace Set.Frontend.Services
 {
@@ -20,12 +21,12 @@ namespace Set.Frontend.Services
         /// Selects or de-selects the card and returns the change in the number of cards selected after the change
         /// </summary>
         /// <param name="setCard">SetCardUiModel to select or de-select</param>
-        public int ProcessCardSelection(SetCardUiModel setCard)
+        public int GetNumberOfSelectedAfterCardToggle(SetCardUiModel setCard, int numberOfSelected)
         {
             // If the current background is white, the cards is unselected and thus should be selected otherwise, de-select it. 
-            setCard.BackGroundColor = setCard.BackGroundColor == "white" ? "yellow" : "white";
+            setCard.BackGroundColor = GetBackgroundColorAfterToggle(setCard);
 
-            return setCard.BackGroundColor == "white" ? -1 : 1;
+            return RecalculateNumberOfSelectedAfterToggle(setCard, numberOfSelected);
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace Set.Frontend.Services
         /// /// <param name="isSet">bool to determine if the set was correct or false</param>
         public IEnumerable<SetCardUiModel> ChangeSetBackgroundColorOnSubmissionOutcome(IEnumerable<SetCardUiModel> cards, bool isSet)
         {
-            var signalColor = isSet ? "green" : "red";
+            var signalColor = isSet ? CardBorderColor.Succes : CardBorderColor.Failure;
 
             foreach (var card in cards)
             {
@@ -43,6 +44,16 @@ namespace Set.Frontend.Services
             }
 
             return cards;
+        }
+
+        private string GetBackgroundColorAfterToggle(SetCardUiModel setCard)
+        {
+            return setCard.BackGroundColor == CardBackgroundColor.Standard ? CardBackgroundColor.Selected : CardBackgroundColor.Standard;
+        }
+
+        private int RecalculateNumberOfSelectedAfterToggle(SetCardUiModel setCard, int numberOfSelected)
+        {
+            return setCard.BackGroundColor == CardBackgroundColor.Standard ? numberOfSelected - 1 : numberOfSelected + 1;
         }
     }
 }

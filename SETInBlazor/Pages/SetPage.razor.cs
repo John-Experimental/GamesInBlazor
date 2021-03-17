@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Set.Backend.Interfaces;
 using Set.Backend.Models;
+using Set.Frontend.Constants;
 using Set.Frontend.Interfaces;
 using Set.Frontend.Models;
 using System.Collections.Generic;
@@ -12,8 +13,6 @@ namespace Set.Frontend.Pages
 {
     public partial class SetPage
     {
-        // Using the inject attributes here, rather than in the SET.razor page itself
-        // Prefer to keep all the logic away from the page, including the DI
         [Inject]
         public ICardHelperService _cardHelperService { get; set; }
         [Inject]
@@ -24,79 +23,103 @@ namespace Set.Frontend.Pages
         public string difficultyVariation { get; set; }
 
         private List<SetCardUiModel> uniqueCardCombinations;
-        private string lineClass;
-        private int numberOfSelected = 0;
+        private int numberOfCardsSelected = 0;
         private int numberOfCardsVisible;
         private GameSettings settings;
 
+        private string lineClass;
+
         protected override void OnInitialized()
         {
-            difficultyVariation = difficultyVariation ?? "NORMAL";
-            settings = new GameSettings(difficultyVariation);
-            numberOfCardsVisible = settings.numberOfCardsVisible;
+            SetInitialGameVariables();
 
-            uniqueCardCombinations = GetCardsForNewGame(settings);
             EnsureSetExistsOnField();
 
-            lineClass = _uiHelperService.GetLineClass(numberOfCardsVisible);
-
+            SetCssVariables();
         }
 
         private async Task ProcessSelection(SetCardUiModel setCard)
         {
-            numberOfSelected += _uiHelperService.ProcessCardSelection(setCard);
+            numberOfCardsSelected = _uiHelperService.GetNumberOfSelectedAfterCardToggle(setCard, numberOfCardsSelected);
 
-            if (numberOfSelected == 3)
+            if (IsSetSubmission())
             {
-                var setSubmission = uniqueCardCombinations.Where(card => card.BackGroundColor == "yellow").ToList();
-
-                var potentialSet = _mapper.Map<List<SetCardUiModel>, List<SetCard>>(setSubmission);
-                var isSet = _cardHelperService.VerifySet(potentialSet);
-
-                _uiHelperService.ChangeSetBackgroundColorOnSubmissionOutcome(setSubmission, isSet);
+                SignalUiSetSubmissionOutcome();
 
                 await Task.Delay(1000);
+
                 ProcessSetReplacement();
             };
         }
 
+        private void ProcessSetReplacement()
+        {
+            if (IsSetSubmission())
+            {
+
+
+                if (SetIsCorrect())
+                {
+                    ReplaceSetSubmissionCards();
+                    ResetNumberOfVisibleCards();
+                    EnsureSetExistsOnField();
+                }
+                else
+                {
+                    ResetCssForFailedSetSubmissionCards();
+                }
+            };
+        }
+
+        private bool SetIsCorrect()
+        {
+            return uniqueCardCombinations.Count(card => card.BorderColor == CardBorderColor.Succes) == 3;
+        }
+
+        private void ResetCssForFailedSetSubmissionCards()
+        {
+            var selectedCards = uniqueCardCombinations.Where(card => card.BorderColor == CardBorderColor.Failure);
+
+            foreach (var card in selectedCards)
+            {
+                card.BackGroundColor = CardBackgroundColor.Standard;
+                card.BorderColor = CardBorderColor.Standard;
+            }
+
+            numberOfCardsSelected = 0;
+        }
+
+        private void SignalUiSetSubmissionOutcome()
+        {
+            var setSubmission = uniqueCardCombinations.Where(card => card.BackGroundColor == CardBackgroundColor.Selected).ToList();
+
+            var potentialSet = _mapper.Map<List<SetCardUiModel>, List<SetCard>>(setSubmission);
+            var isSet = _cardHelperService.VerifySet(potentialSet);
+
+            _uiHelperService.ChangeSetBackgroundColorOnSubmissionOutcome(setSubmission, isSet);
+        }
 
         private List<SetCardUiModel> GetCardsForNewGame(GameSettings settings)
         {
             return _mapper.Map<List<SetCard>, List<SetCardUiModel>>(_cardHelperService.CreateAllUniqueCombinations(settings));
         }
 
-        private void ProcessSetReplacement()
+        private bool IsSetSubmission()
         {
-            // If it wasn't a set submission, you do nothing
-            if (numberOfSelected == 3)
-            {
-                var redBorderedCards = uniqueCardCombinations.Where(card => card.BorderColor == "red").ToList();
-                var countGreenBorders = uniqueCardCombinations.Count(card => card.BorderColor == "green");
+            return numberOfCardsSelected == 3;
+        }
 
-                if (countGreenBorders == 3)
-                {
-                    // Replace the set by removing the set submission entirely from the list
-                    uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == "yellow");
-                    numberOfSelected = 0;
+        private void ReplaceSetSubmissionCards()
+        {
+            uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == CardBackgroundColor.Selected);
+            numberOfCardsSelected = 0;
+        }
 
-                    // Check if the field currently shows more cards than normal (can happen if there was no set previously)
-                    // If there are more cards, then remove 3 cards again to bring it back down to 'normal'
-                    numberOfCardsVisible -= numberOfCardsVisible > settings.numberOfCardsVisible ? 3 : 0;
-
-                    EnsureSetExistsOnField();
-                }
-                else
-                {
-                    foreach (var card in redBorderedCards)
-                    {
-                        card.BackGroundColor = "white";
-                        card.BorderColor = "black";
-                    }
-
-                    numberOfSelected = 0;
-                }
-            };
+        private void ResetNumberOfVisibleCards()
+        {
+            // Check if the field currently shows more cards than normal (can happen if there was no set previously)
+            // If there are more cards, then remove 3 cards again to bring it back down to 'normal'
+            numberOfCardsVisible -= numberOfCardsVisible > settings.numberOfCardsVisible ? 3 : 0;
         }
 
         private void EnsureSetExistsOnField()
@@ -108,16 +131,35 @@ namespace Set.Frontend.Pages
             if (!_cardHelperService.DoesFieldContainASet(visibleCards))
             {
                 // Once there are no more cards left and there's no set, start a new game for now
-                if (uniqueCardCombinations.Count <= numberOfCardsVisible)
+                if (NoMoreCardsLeft())
                 {
                     uniqueCardCombinations = GetCardsForNewGame(settings);
                 }
                 else
                 {
-                    // Otherwise add 3 more cards to be made visible on the field
                     numberOfCardsVisible += 3;
+                    EnsureSetExistsOnField();
                 }
             }
+        }
+
+        private bool NoMoreCardsLeft()
+        {
+            return uniqueCardCombinations.Count <= numberOfCardsVisible;
+        }
+
+        private void SetInitialGameVariables()
+        {
+            difficultyVariation = difficultyVariation ?? "NORMAL";
+            settings = new GameSettings(difficultyVariation);
+            numberOfCardsVisible = settings.numberOfCardsVisible;
+
+            uniqueCardCombinations = GetCardsForNewGame(settings);
+        }
+
+        private void SetCssVariables()
+        {
+            lineClass = _uiHelperService.GetLineClass(numberOfCardsVisible);
         }
     }
 }
