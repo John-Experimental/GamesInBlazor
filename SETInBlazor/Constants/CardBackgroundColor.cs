@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Set.Frontend.Constants
+﻿namespace Set.Frontend.Constants
 {
     public class CardBackgroundColor
     {

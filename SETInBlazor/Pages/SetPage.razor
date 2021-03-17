@@ -11,9 +11,9 @@ else
         @for (int i = 0; i < numberOfCardsVisible; i++)
         {
             var index = i;
-            <div class="card @lineClass" style="background-color:@uniqueCardCombinations[index].BackGroundColor; 
-                    border-color:@uniqueCardCombinations[index].BorderColor;" 
+            <div class="card @lineClass" style="background-color:@uniqueCardCombinations[index].BackGroundColor; border-color:@uniqueCardCombinations[index].BorderColor;" 
                     @onclick="() => ProcessSelection(uniqueCardCombinations[index])">
+
                 @for (int j = 0; j < uniqueCardCombinations[i].Count; j++)
                 {
                     <div class="@uniqueCardCombinations[i].Shape @uniqueCardCombinations[i].Color @uniqueCardCombinations[i].Border"></div>
