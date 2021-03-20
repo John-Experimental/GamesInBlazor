@@ -9,5 +9,7 @@
 
         public string BackGroundColor { get; set; } = "white";
         public string BorderColor { get; set; } = "black";
+        public string Animation { get; set; } = "";
+
     }
 }

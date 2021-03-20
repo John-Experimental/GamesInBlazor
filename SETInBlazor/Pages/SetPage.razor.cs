@@ -31,7 +31,7 @@ namespace Set.Frontend.Pages
 
         protected override void OnInitialized()
         {
-            SetInitialGameVariables();
+            SetNewGameVariables();
 
             EnsureSetExistsOnField();
 
@@ -46,7 +46,7 @@ namespace Set.Frontend.Pages
             {
                 SignalUiSetSubmissionOutcome();
 
-                await Task.Delay(1000);
+                await Task.Delay(500);
 
                 ProcessSetReplacement();
             };
@@ -56,13 +56,12 @@ namespace Set.Frontend.Pages
         {
             if (IsSetSubmission())
             {
-
-
                 if (SetIsCorrect())
                 {
                     ReplaceSetSubmissionCards();
-                    ResetNumberOfVisibleCards();
+                    AdjustNumberOfVisibleCards();
                     EnsureSetExistsOnField();
+                    SetCssVariables();
                 }
                 else
                 {
@@ -73,17 +72,17 @@ namespace Set.Frontend.Pages
 
         private bool SetIsCorrect()
         {
-            return uniqueCardCombinations.Count(card => card.BorderColor == CardBorderColor.Succes) == 3;
+            return uniqueCardCombinations.Count(card => card.BackGroundColor == CardBackgroundColor.Success) == 3;
         }
 
         private void ResetCssForFailedSetSubmissionCards()
         {
-            var selectedCards = uniqueCardCombinations.Where(card => card.BorderColor == CardBorderColor.Failure);
+            var selectedCards = uniqueCardCombinations.Where(card => card.BackGroundColor == CardBackgroundColor.Failure);
 
             foreach (var card in selectedCards)
             {
                 card.BackGroundColor = CardBackgroundColor.Standard;
-                card.BorderColor = CardBorderColor.Standard;
+                card.Animation = string.Empty;
             }
 
             numberOfCardsSelected = 0;
@@ -111,15 +110,13 @@ namespace Set.Frontend.Pages
 
         private void ReplaceSetSubmissionCards()
         {
-            uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == CardBackgroundColor.Selected);
+            uniqueCardCombinations.RemoveAll(card => card.BackGroundColor == CardBackgroundColor.Success);
             numberOfCardsSelected = 0;
         }
 
-        private void ResetNumberOfVisibleCards()
+        private void AdjustNumberOfVisibleCards()
         {
-            // Check if the field currently shows more cards than normal (can happen if there was no set previously)
-            // If there are more cards, then remove 3 cards again to bring it back down to 'normal'
-            numberOfCardsVisible -= numberOfCardsVisible > settings.numberOfCardsVisible ? 3 : 0;
+            numberOfCardsVisible = NoMoreExtraCardsLeft() ? uniqueCardCombinations.Count : settings.numberOfCardsVisible;
         }
 
         private void EnsureSetExistsOnField()
@@ -130,10 +127,9 @@ namespace Set.Frontend.Pages
 
             if (!_cardHelperService.DoesFieldContainASet(visibleCards))
             {
-                // Once there are no more cards left and there's no set, start a new game for now
-                if (NoMoreCardsLeft())
+                if (NoMoreExtraCardsLeft())
                 {
-                    uniqueCardCombinations = GetCardsForNewGame(settings);
+                    SetNewGameVariables();
                 }
                 else
                 {
@@ -143,12 +139,12 @@ namespace Set.Frontend.Pages
             }
         }
 
-        private bool NoMoreCardsLeft()
+        private bool NoMoreExtraCardsLeft()
         {
             return uniqueCardCombinations.Count <= numberOfCardsVisible;
         }
 
-        private void SetInitialGameVariables()
+        private void SetNewGameVariables()
         {
             difficultyVariation = difficultyVariation ?? "NORMAL";
             settings = new GameSettings(difficultyVariation);

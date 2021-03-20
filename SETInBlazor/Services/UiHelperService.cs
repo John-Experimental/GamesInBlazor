@@ -36,11 +36,12 @@ namespace Set.Frontend.Services
         /// /// <param name="isSet">bool to determine if the set was correct or false</param>
         public IEnumerable<SetCardUiModel> ChangeSetBackgroundColorOnSubmissionOutcome(IEnumerable<SetCardUiModel> cards, bool isSet)
         {
-            var signalColor = isSet ? CardBorderColor.Succes : CardBorderColor.Failure;
+            var signalColor = isSet ? CardBackgroundColor.Success : CardBackgroundColor.Failure;
 
             foreach (var card in cards)
             {
-                card.BorderColor = signalColor;
+                card.BackGroundColor = signalColor;
+                card.Animation = Animations.Pulse;
             }
 
             return cards;
