@@ -11,7 +11,7 @@ else
         @for (int i = 0; i < numberOfCardsVisible; i++)
         {
             var card = uniqueCardCombinations[i];
-            <div class="card @lineClass @card.Animation" style="background-color:@card.BackGroundColor; border-color:@card.BorderColor;" 
+            <div class="card @lineClass @card.Animation" style="background-color:@card.BackGroundColor;" 
                     @onclick="() => ProcessSelection(card)">
 
                 @for (int j = 0; j < card.Count; j++)
