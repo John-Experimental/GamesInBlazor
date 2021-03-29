@@ -8,7 +8,5 @@
         public int Count { get; set; }
 
         public string BackGroundColor { get; set; } = "white";
-        public string Animation { get; set; } = "";
-
     }
 }
