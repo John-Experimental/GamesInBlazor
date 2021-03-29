@@ -10,13 +10,11 @@ else
     <div class="cardsContainer">
         @for (int i = 0; i < numberOfCardsVisible; i++)
         {
-            var card = uniqueCardCombinations[i];
-            <div class="card @lineClass @card.Animation" style="background-color:@card.BackGroundColor;" 
-                    @onclick="() => ProcessSelection(card)">
-
-                @for (int j = 0; j < card.Count; j++)
+            var index = i;
+            <div class="card @lineClass" style="background-color:@uniqueCardCombinations[index].BackGroundColor;" @onclick="() => ProcessSelection(uniqueCardCombinations[index])">
+                @for (int j = 0; j < uniqueCardCombinations[i].Count; j++)
                 {
-                    <div class="@card.Shape @card.Color @card.Border"></div>
+                    <div class="@uniqueCardCombinations[i].Shape @uniqueCardCombinations[i].Color @uniqueCardCombinations[i].Border"></div>
                 }
             </div>
         }
